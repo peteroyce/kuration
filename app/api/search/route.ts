@@ -40,3 +40,4 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({ results: scored, query });
 }
+# tag filter combined with semantic search
