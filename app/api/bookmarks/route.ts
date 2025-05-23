@@ -54,3 +54,4 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({ bookmark }, { status: 201 });
 }
+# graceful fallback when embedding generation fails
