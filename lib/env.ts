@@ -6,10 +6,8 @@
 const required = [
   'NEXTAUTH_SECRET',
   'NEXTAUTH_URL',
+  'VOYAGE_API_KEY',
 ] as const;
-
-// At least one embedding key must be present
-const embeddingKeys = ['VOYAGE_API_KEY', 'ANTHROPIC_API_KEY'] as const;
 
 function validateEnv(): void {
   const missing: string[] = [];
@@ -18,14 +16,6 @@ function validateEnv(): void {
     if (!process.env[key] || process.env[key]!.trim() === '') {
       missing.push(key);
     }
-  }
-
-  const hasEmbeddingKey = embeddingKeys.some(
-    k => process.env[k] && process.env[k]!.trim() !== ''
-  );
-
-  if (!hasEmbeddingKey) {
-    missing.push('VOYAGE_API_KEY (or ANTHROPIC_API_KEY)');
   }
 
   if (missing.length > 0) {

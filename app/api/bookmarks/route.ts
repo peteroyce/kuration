@@ -76,13 +76,16 @@ export async function POST(req: NextRequest) {
 
   const typedTags = tags as string[];
 
-  // Generate semantic embedding for search (non-fatal if it fails)
+  // Generate semantic embedding for search — required for bookmarks to appear in search
   const embeddingText = `${title} ${description || ''} ${typedTags.join(' ')}`.trim();
-  let embedding: number[] | null = null;
+  let embedding: number[];
   try {
     embedding = await embed(embeddingText);
   } catch {
-    // Bookmark saved without embedding; won't appear in semantic search
+    return NextResponse.json(
+      { error: 'Embedding service unavailable, bookmark not saved' },
+      { status: 503 }
+    );
   }
 
   const bookmark = await prisma.bookmark.create({
@@ -92,7 +95,7 @@ export async function POST(req: NextRequest) {
       description: typeof description === 'string' ? description : undefined,
       userId: user.id,
       tags: JSON.stringify(typedTags),
-      embedding: embedding ? JSON.stringify(embedding) : null,
+      embedding: JSON.stringify(embedding),
     },
   });
 

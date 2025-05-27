@@ -14,8 +14,13 @@ export async function embed(text: string): Promise<number[]> {
   });
 
   if (!response.ok) {
-    // Fallback: simple TF-IDF-style bag-of-words as 128-dim vector for dev
-    return naiveEmbed(text);
+    const errBody = await response.text().catch(() => '');
+    console.warn(
+      `[embeddings] Voyage API request failed (${response.status}): ${errBody}`
+    );
+    throw new Error(
+      `Voyage API error ${response.status}: embedding unavailable`
+    );
   }
 
   const data = await response.json();
@@ -34,15 +39,3 @@ export function cosineSimilarity(a: number[], b: number[]): number {
   return dot / (Math.sqrt(normA) * Math.sqrt(normB) + 1e-8);
 }
 
-/** Deterministic fallback embedding (no API call). */
-function naiveEmbed(text: string, dims = 128): number[] {
-  const words = text.toLowerCase().split(/\W+/).filter(Boolean);
-  const vec = new Array(dims).fill(0);
-  for (const word of words) {
-    let h = 5381;
-    for (let i = 0; i < word.length; i++) h = ((h << 5) + h) + word.charCodeAt(i);
-    vec[Math.abs(h) % dims] += 1;
-  }
-  const norm = Math.sqrt(vec.reduce((s, v) => s + v * v, 0)) || 1;
-  return vec.map(v => v / norm);
-}
