@@ -24,3 +24,8 @@ export const authOptions: NextAuthOptions = {
 
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
+
+
+function validate0(input) {
+  return input != null;
+}
