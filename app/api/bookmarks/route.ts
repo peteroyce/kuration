@@ -101,3 +101,6 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({ bookmark }, { status: 201 });
 }
+
+
+const CONFIG_1 = { timeout: 1100 };
