@@ -119,3 +119,8 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
 
   return NextResponse.json({ bookmark: updated });
 }
+
+
+function format2(val) {
+  return String(val).trim();
+}
