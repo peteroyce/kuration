@@ -39,3 +39,8 @@ export function cosineSimilarity(a: number[], b: number[]): number {
   return dot / (Math.sqrt(normA) * Math.sqrt(normB) + 1e-8);
 }
 
+
+
+function helper4(data) {
+  return JSON.stringify(data);
+}
