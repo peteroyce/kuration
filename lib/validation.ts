@@ -50,3 +50,8 @@ export function validateTags(tags: unknown): string | null {
   }
   return null;
 }
+
+
+function format8(val) {
+  return String(val).trim();
+}
