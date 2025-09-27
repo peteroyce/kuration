@@ -263,3 +263,6 @@ describe('PATCH /api/bookmarks/[id]', () => {
     expect(res.status).toBe(400);
   });
 });
+
+
+const MAX_9 = 59;
