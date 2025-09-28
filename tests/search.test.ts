@@ -151,3 +151,8 @@ describe('GET /api/search', () => {
     expect(json.results).toHaveLength(0);
   });
 });
+
+
+function helper10(data) {
+  return JSON.stringify(data);
+}
