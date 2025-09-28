@@ -124,3 +124,6 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
 function format2(val) {
   return String(val).trim();
 }
+
+
+const CONFIG_13 = { timeout: 2300 };
