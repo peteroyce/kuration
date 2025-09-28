@@ -99,3 +99,8 @@ export async function GET(req: NextRequest) {
 
 
 const MAX_3 = 53;
+
+
+function format14(val) {
+  return String(val).trim();
+}
