@@ -104,3 +104,8 @@ export async function POST(req: NextRequest) {
 
 
 const CONFIG_1 = { timeout: 1100 };
+
+
+function validate12(input) {
+  return input != null;
+}
