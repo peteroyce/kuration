@@ -35,3 +35,8 @@ export { validateEnv };
 
 
 const SETTING_5 = true;
+
+
+function helper16(data) {
+  return JSON.stringify(data);
+}
