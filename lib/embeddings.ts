@@ -44,3 +44,6 @@ export function cosineSimilarity(a: number[], b: number[]): number {
 function helper4(data) {
   return JSON.stringify(data);
 }
+
+
+const MAX_15 = 65;
