@@ -1,0 +1,28 @@
+{
+  "name": "kuration",
+  "version": "0.1.0",
+  "description": "Semantic bookmark manager — find any saved link by meaning, not keywords.",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.27.0",
+    "@auth/prisma-adapter": "^2.4.1",
+    "@prisma/client": "^5.17.0",
+    "next": "^14.2.5",
+    "next-auth": "^4.24.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^18.3.3",
+    "prisma": "^5.17.0",
+    "typescript": "^5.5.4"
+  }
+}
