@@ -1,19 +1,13 @@
 /**
- * Semantic embedding helpers using Anthropic's voyage embeddings via the API.
+ * Semantic embedding helpers using Voyage AI embeddings.
  * Embeddings are stored as JSON-stringified float arrays in SQLite.
  */
 
-import Anthropic from '@anthropic-ai/sdk';
-
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-
 export async function embed(text: string): Promise<number[]> {
-  // Use Claude's text embedding via the messages API with a structured prompt
-  // In production, swap for a dedicated embedding model (voyage-2, text-embedding-3-small, etc.)
   const response = await fetch('https://api.voyageai.com/v1/embeddings', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${process.env.ANTHROPIC_API_KEY}`,
+      'Authorization': `Bearer ${process.env.VOYAGE_API_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ input: text, model: 'voyage-2' }),
