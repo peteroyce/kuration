@@ -91,9 +91,10 @@ describe('GET /api/search', () => {
     mockGetServerSession.mockResolvedValue({ user: { email: 'a@b.com' } });
     mockPrismaUser.findUnique.mockResolvedValue({ id: 'user-s-sort', email: 'a@b.com' });
 
-    const bm1 = makeBookmark('low', [], 0.2);
+    // All scores above the default threshold of 0.3
+    const bm1 = makeBookmark('low', [], 0.4);
     const bm2 = makeBookmark('high', [], 0.9);
-    const bm3 = makeBookmark('mid', [], 0.5);
+    const bm3 = makeBookmark('mid', [], 0.6);
 
     mockPrismaBookmark.findMany.mockResolvedValue([bm1, bm2, bm3]);
 
@@ -111,7 +112,7 @@ describe('GET /api/search', () => {
     for (let i = 0; i < scores.length - 1; i++) {
       expect(scores[i]).toBeGreaterThanOrEqual(scores[i + 1]);
     }
-    // high (0.9) should be first, low (0.2) last
+    // high (0.9) should be first, low (0.4) last
     expect(json.results[0].id).toBe('high');
     expect(json.results[json.results.length - 1].id).toBe('low');
   });

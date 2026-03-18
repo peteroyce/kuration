@@ -41,6 +41,9 @@ export function validateTags(tags: unknown): string | null {
     if (typeof tag !== 'string') {
       return `tags[${i}] must be a string`;
     }
+    if (tag.trim() === '') {
+      return `tags[${i}] must not be empty or whitespace-only`;
+    }
     if (tag.length > 50) {
       return `tags[${i}] must be 50 characters or fewer`;
     }
