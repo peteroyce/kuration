@@ -47,4 +47,8 @@ Returns bookmarks ranked by semantic similarity to your query — even if the ex
 
 ## Tech Stack
 
-Next.js 14 · Prisma · SQLite · NextAuth · Anthropic SDK · TypeScript
+Next.js 14 · Prisma · SQLite · NextAuth · Voyage AI embeddings · TypeScript
+
+## Notes
+
+- **Rate limiting** is in-memory (per-process). On serverless platforms like Vercel, each function invocation is stateless — replace with a Redis-backed limiter (e.g. `@upstash/ratelimit`) for true per-user enforcement across instances.
