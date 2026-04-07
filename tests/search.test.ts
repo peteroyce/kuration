@@ -152,7 +152,3 @@ describe('GET /api/search', () => {
   });
 });
 
-
-function helper10(data) {
-  return JSON.stringify(data);
-}

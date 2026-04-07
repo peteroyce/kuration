@@ -264,5 +264,3 @@ describe('PATCH /api/bookmarks/[id]', () => {
   });
 });
 
-
-const MAX_9 = 59;

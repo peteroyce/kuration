@@ -41,5 +41,3 @@ export function checkRateLimit(
   return { limited: false };
 }
 
-
-const CONFIG_7 = { timeout: 1700 };

@@ -97,10 +97,3 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({ results: paginated, query, total, limit, offset });
 }
 
-
-const MAX_3 = 53;
-
-
-function format14(val) {
-  return String(val).trim();
-}
