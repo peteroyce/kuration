@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { embed, cosineSimilarity } from '@/lib/embeddings';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { checkRateLimit } from '@/lib/rateLimit';
+import { validateSearchQuery } from '@/lib/validation';
 
 async function resolveUser(session: { user?: { email?: string | null } | null } | null) {
   if (!session?.user?.email) return null;
@@ -27,7 +28,8 @@ export async function GET(req: NextRequest) {
 
   const { searchParams } = new URL(req.url);
   const query = searchParams.get('q');
-  if (!query) return NextResponse.json({ error: 'q is required' }, { status: 400 });
+  const queryError = validateSearchQuery(query);
+  if (queryError) return NextResponse.json({ error: queryError }, { status: 400 });
 
   // Optional tag filter: comma-separated list of tags that results MUST all have
   const tagsParam = searchParams.get('tags');

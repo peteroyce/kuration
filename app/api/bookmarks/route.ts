@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { embed } from '@/lib/embeddings';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { checkRateLimit } from '@/lib/rateLimit';
-import { validateUrl, validateTags } from '@/lib/validation';
+import { validateUrl, validateTags, validateTitle, validateDescription } from '@/lib/validation';
 
 async function resolveUser(session: { user?: { email?: string | null } | null } | null) {
   if (!session?.user?.email) return null;
@@ -64,9 +64,11 @@ export async function POST(req: NextRequest) {
 
   const { url, title, description, tags = [] } = body as Record<string, unknown>;
 
-  if (!title || typeof title !== 'string') {
-    return NextResponse.json({ error: 'title is required' }, { status: 400 });
-  }
+  const titleError = validateTitle(title);
+  if (titleError) return NextResponse.json({ error: titleError }, { status: 400 });
+
+  const descError = validateDescription(description);
+  if (descError) return NextResponse.json({ error: descError }, { status: 400 });
 
   const urlError = validateUrl(url);
   if (urlError) return NextResponse.json({ error: urlError }, { status: 400 });

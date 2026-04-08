@@ -51,3 +51,63 @@ export function validateTags(tags: unknown): string | null {
   return null;
 }
 
+/**
+ * Validates a title string (max 200 chars).
+ * Returns null on success, error message on failure.
+ */
+export function validateTitle(title: unknown): string | null {
+  if (typeof title !== 'string' || title.trim() === '') {
+    return 'title must be a non-empty string';
+  }
+  if (title.length > 200) {
+    return 'title must be 200 characters or fewer';
+  }
+  return null;
+}
+
+/**
+ * Validates a description string (max 2000 chars).
+ * Returns null on success, error message on failure.
+ */
+export function validateDescription(description: unknown): string | null {
+  if (description === undefined || description === null) return null;
+  if (typeof description !== 'string') {
+    return 'description must be a string';
+  }
+  if (description.length > 2000) {
+    return 'description must be 2000 characters or fewer';
+  }
+  return null;
+}
+
+/**
+ * Validates a search query string (max 500 chars).
+ * Returns null on success, error message on failure.
+ */
+export function validateSearchQuery(query: unknown): string | null {
+  if (typeof query !== 'string' || query.trim() === '') {
+    return 'q must be a non-empty string';
+  }
+  if (query.length > 500) {
+    return 'q must be 500 characters or fewer';
+  }
+  return null;
+}
+
+/**
+ * Validates an ID path parameter (non-empty, max 128 chars, alphanumeric + hyphens + underscores).
+ * Returns null on success, error message on failure.
+ */
+export function validateId(id: unknown): string | null {
+  if (typeof id !== 'string' || id.trim() === '') {
+    return 'id must be a non-empty string';
+  }
+  if (id.length > 128) {
+    return 'id must be 128 characters or fewer';
+  }
+  if (!/^[a-zA-Z0-9_-]+$/.test(id)) {
+    return 'id must contain only alphanumeric characters, hyphens, and underscores';
+  }
+  return null;
+}
+

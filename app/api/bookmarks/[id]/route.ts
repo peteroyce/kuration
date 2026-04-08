@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { embed } from '@/lib/embeddings';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { checkRateLimit } from '@/lib/rateLimit';
-import { validateUrl, validateTags } from '@/lib/validation';
+import { validateUrl, validateTags, validateTitle, validateDescription, validateId } from '@/lib/validation';
 
 interface RouteContext {
   params: { id: string };
@@ -16,6 +16,9 @@ async function resolveUser(session: { user?: { email?: string | null } | null } 
 }
 
 export async function DELETE(_req: NextRequest, { params }: RouteContext) {
+  const idError = validateId(params.id);
+  if (idError) return NextResponse.json({ error: idError }, { status: 400 });
+
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
@@ -43,6 +46,9 @@ export async function DELETE(_req: NextRequest, { params }: RouteContext) {
 }
 
 export async function PATCH(req: NextRequest, { params }: RouteContext) {
+  const idError = validateId(params.id);
+  if (idError) return NextResponse.json({ error: idError }, { status: 400 });
+
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
@@ -85,8 +91,14 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
     if (tagsError) return NextResponse.json({ error: tagsError }, { status: 400 });
   }
 
-  if (title !== undefined && (typeof title !== 'string' || title.trim() === '')) {
-    return NextResponse.json({ error: 'title must be a non-empty string' }, { status: 400 });
+  if (title !== undefined) {
+    const titleError = validateTitle(title);
+    if (titleError) return NextResponse.json({ error: titleError }, { status: 400 });
+  }
+
+  if (description !== undefined) {
+    const descError = validateDescription(description);
+    if (descError) return NextResponse.json({ error: descError }, { status: 400 });
   }
 
   // Compute updated values, falling back to existing stored values
